@@ -1,0 +1,42 @@
+# Xcode
+#
+## User settings
+xcuserdata/
+
+## Build artifacts
+build/
+*.xcarchive
+*.xcassets.car
+*.app
+*.ipa
+*.dSYM.zip
+
+## Swift Package Manager
+.swiftpm/build/
+
+## CocoaPods
+Pods/
+*.lock
+
+## Carthage
+Carthage/Build/
+
+## Generated data
+DerivedData/
+
+## macOS system files
+.DS_Store
+.lsregister*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+## Playgrounds
+*.playground/xcuserdata
+*.playground/DerivedData
+
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# .swiftpm/
+
+.claude/

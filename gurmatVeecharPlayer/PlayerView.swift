@@ -6,8 +6,13 @@ struct PlayerView: View {
 
     var body: some View {
         ZStack {
+            // Enhanced gradient background with blue-orange theme
             LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.6), Color.purple.opacity(0.6)]),
+                gradient: Gradient(colors: [
+                    AppTheme.primaryBlue,
+                    AppTheme.secondaryBlue,
+                    AppTheme.primaryOrange.opacity(0.6)
+                ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -16,26 +21,52 @@ struct PlayerView: View {
             VStack(spacing: 40) {
                 Spacer()
 
+                // Album art with glassmorphism
                 VStack(spacing: 20) {
-                    Image(systemName: "music.note")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(
-                            Circle()
-                                .fill(Color.white.opacity(0.2))
-                        )
+                    ZStack {
+                        // Outer glow
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        AppTheme.lightOrange.opacity(0.4),
+                                        AppTheme.lightBlue.opacity(0.3)
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 200, height: 200)
+                            .blur(radius: 20)
+
+                        // Glass background
+                        Circle()
+                            .fill(Color.white.opacity(0.15))
+                            .frame(width: 180, height: 180)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                            )
+                            .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: 8)
+
+                        // Icon
+                        Image(systemName: "music.note")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.white)
+                    }
 
                     Text(audioManager.currentTrackTitle)
                         .font(.title2)
-                        .fontWeight(.semibold)
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                 }
 
+                // Time slider with glass effect
                 VStack(spacing: 15) {
                     Slider(
                         value: Binding(
@@ -44,45 +75,95 @@ struct PlayerView: View {
                         ),
                         in: 0...max(audioManager.duration, 1)
                     )
-                    .accentColor(.white)
+                    .accentColor(AppTheme.lightOrange)
+                    .tint(AppTheme.lightOrange)
 
                     HStack {
                         Text(formatTime(audioManager.currentTime))
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.8))
+                            .fontWeight(.medium)
+                            .foregroundColor(.white.opacity(0.9))
 
                         Spacer()
 
                         Text(formatTime(audioManager.duration))
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.8))
+                            .fontWeight(.medium)
+                            .foregroundColor(.white.opacity(0.9))
                     }
                 }
                 .padding(.horizontal, 30)
+                .padding(.vertical, 20)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white.opacity(0.1))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                        )
+                )
+                .padding(.horizontal, 20)
 
-                HStack(spacing: 40) {
+                // Control buttons with glass effect
+                HStack(spacing: 50) {
                     Button(action: {
                         audioManager.skipBackward()
                     }) {
-                        Image(systemName: "gobackward.15")
-                            .font(.system(size: 32))
-                            .foregroundColor(.white)
+                        ZStack {
+                            Circle()
+                                .fill(Color.white.opacity(0.15))
+                                .frame(width: 60, height: 60)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                )
+
+                            Image(systemName: "gobackward.15")
+                                .font(.system(size: 24, weight: .semibold))
+                                .foregroundColor(.white)
+                        }
                     }
 
                     Button(action: {
                         audioManager.togglePlayPause()
                     }) {
-                        Image(systemName: audioManager.isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                            .font(.system(size: 64))
-                            .foregroundColor(.white)
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            AppTheme.lightOrange,
+                                            AppTheme.secondaryOrange
+                                        ]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 80, height: 80)
+                                .shadow(color: AppTheme.primaryOrange.opacity(0.5), radius: 15, x: 0, y: 8)
+
+                            Image(systemName: audioManager.isPlaying ? "pause.fill" : "play.fill")
+                                .font(.system(size: 32, weight: .bold))
+                                .foregroundColor(.white)
+                        }
                     }
 
                     Button(action: {
                         audioManager.skipForward()
                     }) {
-                        Image(systemName: "goforward.15")
-                            .font(.system(size: 32))
-                            .foregroundColor(.white)
+                        ZStack {
+                            Circle()
+                                .fill(Color.white.opacity(0.15))
+                                .frame(width: 60, height: 60)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                )
+
+                            Image(systemName: "goforward.15")
+                                .font(.system(size: 24, weight: .semibold))
+                                .foregroundColor(.white)
+                        }
                     }
                 }
 
