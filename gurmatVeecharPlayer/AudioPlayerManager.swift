@@ -1,21 +1,31 @@
 import Foundation
 import AVFoundation
 import Combine
+import UIKit
 
 class AudioPlayerManager: NSObject, ObservableObject {
     @Published var isPlaying = false
     @Published var currentTime: TimeInterval = 0
     @Published var duration: TimeInterval = 0
     @Published var currentTrackTitle: String = "No Track Selected"
+    @Published var currentTrackURL: String?
+    @Published var isUsingLocalFile: Bool = false
 
     private var audioPlayer: AVPlayer?
     private var timeObserver: Any?
     private var statusObserver: NSKeyValueObservation?
     private var itemObserver: NSKeyValueObservation?
+    private var databaseManager: DatabaseManager?
+    private var lastSavedPosition: TimeInterval = 0
 
     override init() {
         super.init()
         setupAudioSession()
+        setupNotifications()
+    }
+
+    @MainActor func setDatabaseManager(_ manager: DatabaseManager) {
+        self.databaseManager = manager
     }
 
     private func setupAudioSession() {
@@ -27,25 +37,84 @@ class AudioPlayerManager: NSObject, ObservableObject {
         }
     }
 
-    func loadAudio(url: URL) {
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appWillResignActive),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+
+  @MainActor func loadAudio(url: URL, trackName: String) {
         removeObservers()
 
-        let playerItem = AVPlayerItem(url: url)
+        currentTrackURL = url.absoluteString
+        currentTrackTitle = trackName
+
+        // Check for local file first
+        let localURL = checkForLocalFile(remoteURL: url.absoluteString)
+        let playbackURL = localURL ?? url
+        isUsingLocalFile = localURL != nil
+
+        let playerItem = AVPlayerItem(url: playbackURL)
         audioPlayer = AVPlayer(playerItem: playerItem)
 
-        currentTime = 0
-        currentTrackTitle = url.lastPathComponent
+        // Try to restore playback position
+        if let trackRecord = databaseManager?.getTrack(url: url.absoluteString),
+           trackRecord.currentPlaybackTime > 0 {
+            currentTime = trackRecord.currentPlaybackTime
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.seek(to: trackRecord.currentPlaybackTime)
+            }
+        } else {
+            currentTime = 0
+        }
 
         setupTimeObserver()
         setupStatusObserver()
         setupItemObserver(for: playerItem)
     }
 
+  @MainActor private func checkForLocalFile(remoteURL: String) -> URL? {
+        guard let track = databaseManager?.getTrack(url: remoteURL),
+              track.isDownloaded,
+              let localPath = track.localFilePath else {
+            return nil
+        }
+
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let localURL = documentsPath.appendingPathComponent(localPath)
+
+        // Verify file exists
+        guard FileManager.default.fileExists(atPath: localURL.path) else {
+            // File missing, update database
+            databaseManager?.deleteDownloadedTrack(url: remoteURL)
+            return nil
+        }
+
+        return localURL
+    }
+
     private func setupTimeObserver() {
         let interval = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserver = audioPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self else { return }
-            self.currentTime = time.seconds
+            Task { @MainActor in
+                self.currentTime = time.seconds
+
+                // Auto-save position every 5 seconds
+                if abs(self.currentTime - self.lastSavedPosition) >= 5.0 {
+                    self.saveCurrentPosition()
+                }
+            }
         }
     }
 
@@ -53,7 +122,15 @@ class AudioPlayerManager: NSObject, ObservableObject {
         statusObserver = audioPlayer?.currentItem?.observe(\.status, options: [.new, .old]) { [weak self] item, _ in
             guard let self = self else { return }
             if item.status == .readyToPlay {
-                self.duration = item.duration.seconds
+                let newDuration = item.duration.seconds
+                Task { @MainActor in
+                    self.duration = newDuration
+
+                    // Update database with duration
+                    if let url = self.currentTrackURL {
+                        self.databaseManager?.updateTrackDuration(url: url, duration: newDuration)
+                    }
+                }
             }
         }
     }
@@ -63,7 +140,14 @@ class AudioPlayerManager: NSObject, ObservableObject {
             guard let self = self else { return }
             let duration = item.duration.seconds
             if duration.isFinite {
-                self.duration = duration
+                Task { @MainActor in
+                    self.duration = duration
+
+                    // Update database
+                    if let url = self.currentTrackURL {
+                        self.databaseManager?.updateTrackDuration(url: url, duration: duration)
+                    }
+                }
             }
         }
 
@@ -75,17 +159,18 @@ class AudioPlayerManager: NSObject, ObservableObject {
         )
     }
 
-    func play() {
+    @MainActor func play() {
         audioPlayer?.play()
         isPlaying = true
     }
 
-    func pause() {
+    @MainActor func pause() {
         audioPlayer?.pause()
         isPlaying = false
+        saveCurrentPosition()
     }
 
-    func togglePlayPause() {
+    @MainActor func togglePlayPause() {
         if isPlaying {
             pause()
         } else {
@@ -93,25 +178,46 @@ class AudioPlayerManager: NSObject, ObservableObject {
         }
     }
 
-    func seek(to time: TimeInterval) {
+    @MainActor func seek(to time: TimeInterval) {
         let cmTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         audioPlayer?.seek(to: cmTime)
         currentTime = time
     }
 
-    func skipForward(_ seconds: TimeInterval = 15) {
+    @MainActor func skipForward(_ seconds: TimeInterval = 15) {
         let newTime = min(currentTime + seconds, duration)
         seek(to: newTime)
     }
 
-    func skipBackward(_ seconds: TimeInterval = 15) {
+    @MainActor func skipBackward(_ seconds: TimeInterval = 15) {
         let newTime = max(currentTime - seconds, 0)
         seek(to: newTime)
     }
 
     @objc private func playerDidFinishPlaying() {
-        isPlaying = false
-        currentTime = 0
+        Task { @MainActor in
+            isPlaying = false
+            currentTime = 0
+            saveCurrentPosition()
+        }
+    }
+
+  @MainActor private func saveCurrentPosition() {
+        guard let url = currentTrackURL else { return }
+        databaseManager?.updatePlaybackPosition(url: url, position: currentTime)
+        lastSavedPosition = currentTime
+    }
+
+    @objc private func appWillResignActive() {
+        Task { @MainActor in
+            saveCurrentPosition()
+        }
+    }
+
+    @objc private func appDidEnterBackground() {
+        Task { @MainActor in
+            saveCurrentPosition()
+        }
     }
 
     private func removeObservers() {
@@ -126,10 +232,11 @@ class AudioPlayerManager: NSObject, ObservableObject {
         itemObserver?.invalidate()
         itemObserver = nil
 
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
 
     deinit {
         removeObservers()
+        NotificationCenter.default.removeObserver(self)
     }
 }

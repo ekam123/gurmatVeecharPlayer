@@ -1,8 +1,11 @@
 import SwiftUI
+import CoreData
 
 struct PlayerView: View {
     let audioItem: AudioItem
     @ObservedObject var audioManager: AudioPlayerManager
+    let databaseManager: DatabaseManager
+    @Environment(\.managedObjectContext) private var viewContext
 
     var body: some View {
         ZStack {
@@ -50,7 +53,7 @@ struct PlayerView: View {
                             .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: 8)
 
                         // Icon
-                        Image(systemName: "music.note")
+                        Image(systemName: audioManager.isUsingLocalFile ? "arrow.down.circle.fill" : "music.note")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
@@ -64,6 +67,17 @@ struct PlayerView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+
+                    // Status indicator
+                    if audioManager.isUsingLocalFile {
+                        HStack {
+                            Image(systemName: "arrow.down.circle.fill")
+                                .foregroundColor(AppTheme.lightOrange)
+                            Text("Playing from device")
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.9))
+                        }
+                    }
                 }
 
                 // Time slider with glass effect
@@ -175,7 +189,13 @@ struct PlayerView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             if let urlString = audioItem.url, let url = URL(string: urlString) {
-                audioManager.loadAudio(url: url)
+                audioManager.loadAudio(url: url, trackName: audioItem.name)
+
+                // Create track record if doesn't exist
+                if databaseManager.getTrack(url: urlString) == nil {
+                    let track = TrackRecord(context: viewContext, trackURL: urlString, trackName: audioItem.name)
+                    databaseManager.saveOrUpdateTrack(track)
+                }
             }
         }
     }

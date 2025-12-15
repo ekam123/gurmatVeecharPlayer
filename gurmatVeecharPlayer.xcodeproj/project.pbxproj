@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0636D9442EEFB03000AB3301 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9432EEFB03000AB3301 /* Theme.swift */; };
+		0636D9462EEFD60200AB3301 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9452EEFD60200AB3301 /* DownloadManager.swift */; };
+		0636D9482EEFD60B00AB3301 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9472EEFD60A00AB3301 /* DatabaseManager.swift */; };
+		0636D94A2EEFD61100AB3301 /* FavoriteFolderRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9492EEFD61100AB3301 /* FavoriteFolderRecord.swift */; };
+		0636D94C2EEFD61A00AB3301 /* TrackRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D94B2EEFD61A00AB3301 /* TrackRecord.swift */; };
+		0636D94E2EEFD79C00AB3301 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D94D2EEFD79C00AB3301 /* PersistenceController.swift */; };
+		0636D9502EEFDCAF00AB3301 /* FolderCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D94F2EEFDCAF00AB3301 /* FolderCacheManager.swift */; };
 		A10000001 /* gurmatVeecharPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000002 /* gurmatVeecharPlayerApp.swift */; };
 		A10000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000004 /* ContentView.swift */; };
 		A10000005 /* AudioPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000006 /* AudioPlayerManager.swift */; };
@@ -20,6 +26,12 @@
 
 /* Begin PBXFileReference section */
 		0636D9432EEFB03000AB3301 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		0636D9452EEFD60200AB3301 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		0636D9472EEFD60A00AB3301 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		0636D9492EEFD61100AB3301 /* FavoriteFolderRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteFolderRecord.swift; sourceTree = "<group>"; };
+		0636D94B2EEFD61A00AB3301 /* TrackRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackRecord.swift; sourceTree = "<group>"; };
+		0636D94D2EEFD79C00AB3301 /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		0636D94F2EEFDCAF00AB3301 /* FolderCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderCacheManager.swift; sourceTree = "<group>"; };
 		A10000002 /* gurmatVeecharPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gurmatVeecharPlayerApp.swift; sourceTree = "<group>"; };
 		A10000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A10000006 /* AudioPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerManager.swift; sourceTree = "<group>"; };
@@ -58,9 +70,15 @@
 				A10000025 /* Models.swift */,
 				A10000027 /* PlayerView.swift */,
 				0636D9432EEFB03000AB3301 /* Theme.swift */,
+				0636D9472EEFD60A00AB3301 /* DatabaseManager.swift */,
+				0636D94F2EEFDCAF00AB3301 /* FolderCacheManager.swift */,
+				0636D94B2EEFD61A00AB3301 /* TrackRecord.swift */,
 				A10000029 /* FolderBrowserView.swift */,
+				0636D9452EEFD60200AB3301 /* DownloadManager.swift */,
+				0636D9492EEFD61100AB3301 /* FavoriteFolderRecord.swift */,
 				A10000006 /* AudioPlayerManager.swift */,
 				A10000031 /* AudioFetchService.swift */,
+				0636D94D2EEFD79C00AB3301 /* PersistenceController.swift */,
 				A10000008 /* Assets.xcassets */,
 			);
 			path = gurmatVeecharPlayer;
@@ -143,14 +161,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0636D94C2EEFD61A00AB3301 /* TrackRecord.swift in Sources */,
 				A10000003 /* ContentView.swift in Sources */,
 				0636D9442EEFB03000AB3301 /* Theme.swift in Sources */,
+				0636D9482EEFD60B00AB3301 /* DatabaseManager.swift in Sources */,
 				A10000024 /* Models.swift in Sources */,
 				A10000026 /* PlayerView.swift in Sources */,
 				A10000028 /* FolderBrowserView.swift in Sources */,
 				A10000005 /* AudioPlayerManager.swift in Sources */,
 				A10000030 /* AudioFetchService.swift in Sources */,
+				0636D9462EEFD60200AB3301 /* DownloadManager.swift in Sources */,
+				0636D94E2EEFD79C00AB3301 /* PersistenceController.swift in Sources */,
 				A10000001 /* gurmatVeecharPlayerApp.swift in Sources */,
+				0636D9502EEFDCAF00AB3301 /* FolderCacheManager.swift in Sources */,
+				0636D94A2EEFD61100AB3301 /* FavoriteFolderRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
