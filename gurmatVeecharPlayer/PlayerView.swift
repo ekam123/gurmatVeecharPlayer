@@ -6,6 +6,8 @@ struct PlayerView: View {
     @ObservedObject var audioManager: AudioPlayerManager
     let databaseManager: DatabaseManager
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var navigationState: NavigationState
 
     var body: some View {
         ZStack {
@@ -22,6 +24,31 @@ struct PlayerView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 40) {
+                // Close button at the top
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.white.opacity(0.15))
+                                .frame(width: 44, height: 44)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                )
+
+                            Image(systemName: "chevron.down")
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.white)
+                        }
+                    }
+
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.top, 10)
+
                 Spacer()
 
                 // Album art with glassmorphism
@@ -188,6 +215,8 @@ struct PlayerView: View {
         .navigationTitle(audioItem.name)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
+            navigationState.isShowingFullPlayer = true
+
             if let urlString = audioItem.url, let url = URL(string: urlString) {
                 audioManager.loadAudio(url: url, trackName: audioItem.name)
 
@@ -197,6 +226,9 @@ struct PlayerView: View {
                     databaseManager.saveOrUpdateTrack(track)
                 }
             }
+        }
+        .onDisappear {
+            navigationState.isShowingFullPlayer = false
         }
     }
 

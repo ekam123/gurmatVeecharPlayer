@@ -14,6 +14,11 @@
 		0636D94C2EEFD61A00AB3301 /* TrackRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D94B2EEFD61A00AB3301 /* TrackRecord.swift */; };
 		0636D94E2EEFD79C00AB3301 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D94D2EEFD79C00AB3301 /* PersistenceController.swift */; };
 		0636D9502EEFDCAF00AB3301 /* FolderCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D94F2EEFDCAF00AB3301 /* FolderCacheManager.swift */; };
+		0636D9542EF0BE6F00AB3301 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9512EF0BE6E00AB3301 /* BrowseView.swift */; };
+		0636D9552EF0BE6F00AB3301 /* DownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9522EF0BE6F00AB3301 /* DownloadsView.swift */; };
+		0636D9562EF0BE6F00AB3301 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9532EF0BE6F00AB3301 /* FavoritesView.swift */; };
+		0636D9592EF0BE7A00AB3301 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9572EF0BE7900AB3301 /* MainTabView.swift */; };
+		0636D95A2EF0BE7A00AB3301 /* NowPlayingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9582EF0BE7A00AB3301 /* NowPlayingBar.swift */; };
 		A10000001 /* gurmatVeecharPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000002 /* gurmatVeecharPlayerApp.swift */; };
 		A10000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000004 /* ContentView.swift */; };
 		A10000005 /* AudioPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000006 /* AudioPlayerManager.swift */; };
@@ -32,6 +37,11 @@
 		0636D94B2EEFD61A00AB3301 /* TrackRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackRecord.swift; sourceTree = "<group>"; };
 		0636D94D2EEFD79C00AB3301 /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		0636D94F2EEFDCAF00AB3301 /* FolderCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderCacheManager.swift; sourceTree = "<group>"; };
+		0636D9512EF0BE6E00AB3301 /* BrowseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseView.swift; sourceTree = "<group>"; };
+		0636D9522EF0BE6F00AB3301 /* DownloadsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsView.swift; sourceTree = "<group>"; };
+		0636D9532EF0BE6F00AB3301 /* FavoritesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		0636D9572EF0BE7900AB3301 /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0636D9582EF0BE7A00AB3301 /* NowPlayingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayingBar.swift; sourceTree = "<group>"; };
 		A10000002 /* gurmatVeecharPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gurmatVeecharPlayerApp.swift; sourceTree = "<group>"; };
 		A10000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A10000006 /* AudioPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerManager.swift; sourceTree = "<group>"; };
@@ -69,7 +79,12 @@
 				A10000004 /* ContentView.swift */,
 				A10000025 /* Models.swift */,
 				A10000027 /* PlayerView.swift */,
+				0636D9512EF0BE6E00AB3301 /* BrowseView.swift */,
+				0636D9522EF0BE6F00AB3301 /* DownloadsView.swift */,
+				0636D9532EF0BE6F00AB3301 /* FavoritesView.swift */,
 				0636D9432EEFB03000AB3301 /* Theme.swift */,
+				0636D9572EF0BE7900AB3301 /* MainTabView.swift */,
+				0636D9582EF0BE7A00AB3301 /* NowPlayingBar.swift */,
 				0636D9472EEFD60A00AB3301 /* DatabaseManager.swift */,
 				0636D94F2EEFDCAF00AB3301 /* FolderCacheManager.swift */,
 				0636D94B2EEFD61A00AB3301 /* TrackRecord.swift */,
@@ -165,13 +180,18 @@
 				A10000003 /* ContentView.swift in Sources */,
 				0636D9442EEFB03000AB3301 /* Theme.swift in Sources */,
 				0636D9482EEFD60B00AB3301 /* DatabaseManager.swift in Sources */,
+				0636D9552EF0BE6F00AB3301 /* DownloadsView.swift in Sources */,
 				A10000024 /* Models.swift in Sources */,
 				A10000026 /* PlayerView.swift in Sources */,
 				A10000028 /* FolderBrowserView.swift in Sources */,
+				0636D9542EF0BE6F00AB3301 /* BrowseView.swift in Sources */,
 				A10000005 /* AudioPlayerManager.swift in Sources */,
+				0636D95A2EF0BE7A00AB3301 /* NowPlayingBar.swift in Sources */,
 				A10000030 /* AudioFetchService.swift in Sources */,
+				0636D9592EF0BE7A00AB3301 /* MainTabView.swift in Sources */,
 				0636D9462EEFD60200AB3301 /* DownloadManager.swift in Sources */,
 				0636D94E2EEFD79C00AB3301 /* PersistenceController.swift in Sources */,
+				0636D9562EF0BE6F00AB3301 /* FavoritesView.swift in Sources */,
 				A10000001 /* gurmatVeecharPlayerApp.swift in Sources */,
 				0636D9502EEFDCAF00AB3301 /* FolderCacheManager.swift in Sources */,
 				0636D94A2EEFD61100AB3301 /* FavoriteFolderRecord.swift in Sources */,
