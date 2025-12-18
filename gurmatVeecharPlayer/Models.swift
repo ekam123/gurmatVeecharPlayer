@@ -12,12 +12,18 @@ struct AudioItem: Identifiable, Hashable {
     let url: String?
     var children: [AudioItem]?
 
-    init(id: UUID = UUID(), name: String, type: AudioItemType, url: String? = nil, children: [AudioItem]? = nil) {
+    // Playlist context for auto-play
+    var playlist: [AudioItem]?
+    var trackIndex: Int?
+
+    init(id: UUID = UUID(), name: String, type: AudioItemType, url: String? = nil, children: [AudioItem]? = nil, playlist: [AudioItem]? = nil, trackIndex: Int? = nil) {
         self.id = id
         self.name = name
         self.type = type
         self.url = url
         self.children = children
+        self.playlist = playlist
+        self.trackIndex = trackIndex
     }
 
     // Hashable conformance

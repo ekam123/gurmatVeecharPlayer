@@ -12,6 +12,11 @@ struct FolderBrowserView: View {
     @State private var isLoading = false
     @State private var isFavorite = false
 
+    // Computed property for audio tracks only (for playlist context)
+    private var audioTracks: [AudioItem] {
+        items.filter { $0.type == .audio }
+    }
+
     var body: some View {
         ZStack {
             // Background gradient
@@ -39,7 +44,8 @@ struct FolderBrowserView: View {
                                 item: item,
                                 audioManager: audioManager,
                                 databaseManager: databaseManager,
-                                downloadManager: downloadManager
+                                downloadManager: downloadManager,
+                                audioTracks: audioTracks
                             )
                         }
                     }
@@ -172,14 +178,31 @@ struct AudioItemRowWithDownload: View {
     @ObservedObject var audioManager: AudioPlayerManager
     let databaseManager: DatabaseManager
     @ObservedObject var downloadManager: DownloadManager
+    let audioTracks: [AudioItem]
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var trackRecord: TrackRecord?
 
+    // Create item with playlist context
+    private var itemWithPlaylist: AudioItem {
+        guard let index = audioTracks.firstIndex(where: { $0.id == item.id }) else {
+            return item
+        }
+        return AudioItem(
+            id: item.id,
+            name: item.name,
+            type: item.type,
+            url: item.url,
+            children: item.children,
+            playlist: audioTracks,
+            trackIndex: index
+        )
+    }
+
     var body: some View {
         HStack(spacing: 16) {
             // Navigate to player
-            NavigationLink(value: item) {
+            NavigationLink(value: itemWithPlaylist) {
                 HStack(spacing: 16) {
                     // Icon
                     ZStack {

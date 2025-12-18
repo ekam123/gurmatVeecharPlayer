@@ -5,9 +5,19 @@ struct PlayerView: View {
     let audioItem: AudioItem
     @ObservedObject var audioManager: AudioPlayerManager
     let databaseManager: DatabaseManager
+    let playlist: [AudioItem]?
+    let trackIndex: Int?
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var navigationState: NavigationState
+
+    init(audioItem: AudioItem, audioManager: AudioPlayerManager, databaseManager: DatabaseManager, playlist: [AudioItem]? = nil, trackIndex: Int? = nil) {
+        self.audioItem = audioItem
+        self.audioManager = audioManager
+        self.databaseManager = databaseManager
+        self.playlist = playlist
+        self.trackIndex = trackIndex
+    }
 
     var body: some View {
         ZStack {
@@ -214,8 +224,20 @@ struct PlayerView: View {
         }
         .navigationTitle(audioItem.name)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .tabBar)
         .onAppear {
             navigationState.isShowingFullPlayer = true
+
+            // Set playlist context if provided
+            if let playlist = playlist, let trackIndex = trackIndex {
+                audioManager.currentPlaylist = playlist
+                audioManager.currentTrackIndex = trackIndex
+            } else {
+                // Clear playlist if not provided
+                audioManager.currentPlaylist = []
+                audioManager.currentTrackIndex = -1
+            }
 
             if let urlString = audioItem.url, let url = URL(string: urlString) {
                 audioManager.loadAudio(url: url, trackName: audioItem.name)

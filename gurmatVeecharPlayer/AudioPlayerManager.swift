@@ -11,6 +11,10 @@ class AudioPlayerManager: NSObject, ObservableObject {
     @Published var currentTrackURL: String?
     @Published var isUsingLocalFile: Bool = false
 
+    // Playlist management
+    @Published var currentPlaylist: [AudioItem] = []
+    @Published var currentTrackIndex: Int = -1
+
     private var audioPlayer: AVPlayer?
     private var timeObserver: Any?
     private var statusObserver: NSKeyValueObservation?
@@ -194,11 +198,36 @@ class AudioPlayerManager: NSObject, ObservableObject {
         seek(to: newTime)
     }
 
+    @MainActor func playNext() {
+        // Check if we have a playlist and can advance
+        guard !currentPlaylist.isEmpty,
+              currentTrackIndex >= 0,
+              currentTrackIndex < currentPlaylist.count - 1 else {
+            return
+        }
+
+        // Move to next track
+        currentTrackIndex += 1
+        let nextTrack = currentPlaylist[currentTrackIndex]
+
+        // Load and play the next track
+        guard let urlString = nextTrack.url,
+              let url = URL(string: urlString) else {
+            return
+        }
+
+        loadAudio(url: url, trackName: nextTrack.name)
+        play()
+    }
+
     @objc private func playerDidFinishPlaying() {
         Task { @MainActor in
             isPlaying = false
             currentTime = 0
             saveCurrentPosition()
+
+            // Auto-play next track if available
+            playNext()
         }
     }
 

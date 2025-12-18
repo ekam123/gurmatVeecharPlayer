@@ -97,7 +97,9 @@ struct FavoritesView: View {
                     PlayerView(
                         audioItem: item,
                         audioManager: audioManager,
-                        databaseManager: databaseManager
+                        databaseManager: databaseManager,
+                        playlist: item.playlist,
+                        trackIndex: item.trackIndex
                     )
                     .environmentObject(navigationState)
                 }

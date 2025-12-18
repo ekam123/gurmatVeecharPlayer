@@ -19,6 +19,7 @@
 		0636D9562EF0BE6F00AB3301 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9532EF0BE6F00AB3301 /* FavoritesView.swift */; };
 		0636D9592EF0BE7A00AB3301 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9572EF0BE7900AB3301 /* MainTabView.swift */; };
 		0636D95A2EF0BE7A00AB3301 /* NowPlayingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D9582EF0BE7A00AB3301 /* NowPlayingBar.swift */; };
+		0636D95C2EF214C300AB3301 /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636D95B2EF214C300AB3301 /* NavigationState.swift */; };
 		A10000001 /* gurmatVeecharPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000002 /* gurmatVeecharPlayerApp.swift */; };
 		A10000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000004 /* ContentView.swift */; };
 		A10000005 /* AudioPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000006 /* AudioPlayerManager.swift */; };
@@ -42,6 +43,7 @@
 		0636D9532EF0BE6F00AB3301 /* FavoritesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		0636D9572EF0BE7900AB3301 /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		0636D9582EF0BE7A00AB3301 /* NowPlayingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayingBar.swift; sourceTree = "<group>"; };
+		0636D95B2EF214C300AB3301 /* NavigationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationState.swift; sourceTree = "<group>"; };
 		A10000002 /* gurmatVeecharPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gurmatVeecharPlayerApp.swift; sourceTree = "<group>"; };
 		A10000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A10000006 /* AudioPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerManager.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				0636D9452EEFD60200AB3301 /* DownloadManager.swift */,
 				0636D9492EEFD61100AB3301 /* FavoriteFolderRecord.swift */,
 				A10000006 /* AudioPlayerManager.swift */,
+				0636D95B2EF214C300AB3301 /* NavigationState.swift */,
 				A10000031 /* AudioFetchService.swift */,
 				0636D94D2EEFD79C00AB3301 /* PersistenceController.swift */,
 				A10000008 /* Assets.xcassets */,
@@ -185,6 +188,7 @@
 				A10000026 /* PlayerView.swift in Sources */,
 				A10000028 /* FolderBrowserView.swift in Sources */,
 				0636D9542EF0BE6F00AB3301 /* BrowseView.swift in Sources */,
+				0636D95C2EF214C300AB3301 /* NavigationState.swift in Sources */,
 				A10000005 /* AudioPlayerManager.swift in Sources */,
 				0636D95A2EF0BE7A00AB3301 /* NowPlayingBar.swift in Sources */,
 				A10000030 /* AudioFetchService.swift in Sources */,
@@ -322,6 +326,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 6356UMD9VX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -350,6 +355,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 6356UMD9VX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
